@@ -10,6 +10,7 @@ public sealed class GlobalHotkeys : IDisposable
     public const int HotToggleUnits = 2;
     public const int HotDemo = 3;
     public const int HotMove = 4;
+    public const int HotToggleStatus = 5;
     public const int HotExit = 9;
 
     private const uint ModNone = 0;
@@ -17,6 +18,7 @@ public sealed class GlobalHotkeys : IDisposable
     private const uint VkF2 = 0x71;
     private const uint VkF3 = 0x72;
     private const uint VkF4 = 0x73;
+    private const uint VkF5 = 0x74;
     private const uint VkF9 = 0x78;
 
     private HwndSource? _source;
@@ -37,6 +39,7 @@ public sealed class GlobalHotkeys : IDisposable
         RegisterHotKey(helper.Handle, HotToggleUnits, ModNone, VkF2);
         RegisterHotKey(helper.Handle, HotDemo, ModNone, VkF3);
         RegisterHotKey(helper.Handle, HotMove, ModNone, VkF4);
+        RegisterHotKey(helper.Handle, HotToggleStatus, ModNone, VkF5);
         RegisterHotKey(helper.Handle, HotExit, ModNone, VkF9);
     }
 
@@ -48,6 +51,7 @@ public sealed class GlobalHotkeys : IDisposable
         UnregisterHotKey(hwnd, HotToggleUnits);
         UnregisterHotKey(hwnd, HotDemo);
         UnregisterHotKey(hwnd, HotMove);
+        UnregisterHotKey(hwnd, HotToggleStatus);
         UnregisterHotKey(hwnd, HotExit);
         _source.RemoveHook(WndProc);
         _source = null;

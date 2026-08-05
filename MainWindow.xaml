@@ -45,12 +45,12 @@
 
         <Border x:Name="StatusBar" HorizontalAlignment="Left" VerticalAlignment="Top"
                 Margin="8" Padding="8,5" Background="#99000000" CornerRadius="6"
-                IsHitTestVisible="False">
+                IsHitTestVisible="False" Visibility="Collapsed">
             <StackPanel>
                 <TextBlock x:Name="TxtStatus" Foreground="#CFE8FF" FontSize="11"
                            Text="NFSU2 HUD — waiting for FH6 Data Out…" />
                 <TextBlock x:Name="TxtHotkeys" Foreground="#88AACC" FontSize="10"
-                           Text="F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F9 quit" />
+                           Text="F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F5 status  ·  F9 quit" />
             </StackPanel>
         </Border>
 

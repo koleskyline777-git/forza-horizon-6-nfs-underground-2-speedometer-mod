@@ -9,6 +9,8 @@ public sealed class HudSettings
     public double Top { get; set; } = double.NaN;
     public double Scale { get; set; } = 1.45;
     public bool UseMph { get; set; } = true;
+    /// <summary>Debug/status strip (Demo · rpm · hotkeys). Off by default for a clean HUD.</summary>
+    public bool ShowStatusBar { get; set; }
     /// <summary>Optional absolute path to NFSU2HUD img folder (saved after folder picker).</summary>
     public string? AssetsPath { get; set; }
 

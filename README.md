@@ -54,6 +54,7 @@ Built from the Assetto Corsa **NFSU2HUD 3.0** art pack (same dials, needles, fon
 | **F2** | Toggle mph / kph |
 | **F3** | Toggle demo mode |
 | **F4** | Move mode on/off (drag + scroll resize) |
+| **F5** | Toggle status / debug bar (hidden by default) |
 | **F9** | Quit (works globally) |
 
 **Move mode (F4)**

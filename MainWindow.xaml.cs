@@ -29,6 +29,7 @@ public partial class MainWindow : Window
     private bool _demoMode = true;
     private bool _moveMode;
     private bool _forceExit;
+    private bool _showStatusBar;
     private double _demoT;
     private string _lastRpmFace = "";
     private int _lastRev = -1;
@@ -46,6 +47,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _useMph = _settings.UseMph;
+        _showStatusBar = _settings.ShowStatusBar;
         _uiTimer.Tick += (_, _) => RefreshUi();
         _demoTimer.Tick += (_, _) =>
         {
@@ -126,6 +128,7 @@ public partial class MainWindow : Window
         TxtMissingPath.Text = AcHudAssets.ExpectedInstallHint();
         TxtStatus.Text = "MISSING ART — choose NFSU2HUD img folder";
         TxtHotkeys.Text = "Copy img → Assets\\AcHud  ·  or click Choose folder  ·  F9 quit";
+        ApplyStatusBarVisibility();
         _tray?.ShowBalloon("NFSU2 HUD — art missing", "Copy NFSU2HUD 3.0 img into Assets\\AcHud (see ASSETS.md)");
         _tray?.SetTooltip("NFSU2 HUD — art missing");
     }
@@ -303,13 +306,26 @@ public partial class MainWindow : Window
                 _moveMode = !_moveMode;
                 MakeClickThrough(!_moveMode);
                 Cursor = _moveMode ? Cursors.SizeAll : Cursors.Arrow;
-                StatusBar.Opacity = _moveMode ? 1.0 : 0.85;
                 UpdateStatusChrome();
+                break;
+            case GlobalHotkeys.HotToggleStatus:
+                _showStatusBar = !_showStatusBar;
+                _settings.ShowStatusBar = _showStatusBar;
+                _settings.Save();
+                ApplyStatusBarVisibility();
                 break;
             case GlobalHotkeys.HotExit:
                 QuitToTrayExit();
                 break;
         }
+    }
+
+    private void ApplyStatusBarVisibility()
+    {
+        // Always show while the missing-art setup panel is up.
+        bool force = MissingAssetsPanel.Visibility == Visibility.Visible;
+        StatusBar.Visibility = (_showStatusBar || force) ? Visibility.Visible : Visibility.Collapsed;
+        StatusBar.Opacity = _moveMode ? 1.0 : 0.9;
     }
 
     private void ApplyScaleAndPlace(double? centerX = null, double? centerY = null)
@@ -360,9 +376,11 @@ public partial class MainWindow : Window
 
     private void UpdateStatusChrome()
     {
+        ApplyStatusBarVisibility();
+
         TxtHotkeys.Text = _moveMode
-            ? "MOVE MODE — drag · scroll resize · Shift+scroll faster · F4 lock · F9 quit"
-            : "F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F9 quit";
+            ? "MOVE MODE — drag · scroll resize · F4 lock · F5 status · F9 quit"
+            : "F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F5 status  ·  F9 quit";
 
         if (_demoMode)
             TxtStatus.Text = "Demo on — F3 off when FH6 is live";
