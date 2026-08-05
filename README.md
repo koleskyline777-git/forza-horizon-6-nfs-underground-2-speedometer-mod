@@ -3,7 +3,8 @@
 Transparent Windows overlay that draws a **pixel-accurate Need for Speed: Underground 2** race cluster on top of **Forza Horizon 6**, driven by official **Data Out** UDP telemetry.
 
 ![HUD preview](docs/image.png)
-![HUD preview](docs/image(2).png)
+
+![HUD preview](docs/image2.png)
 
 ---
 
