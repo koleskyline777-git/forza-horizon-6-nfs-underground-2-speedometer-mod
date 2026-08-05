@@ -16,11 +16,18 @@ public sealed class AcHudAssets
 
     public AcHudAssets(string root) => _root = root;
 
-    public static string? FindRoot()
+    public static bool LooksValid(string? folder) =>
+        !string.IsNullOrWhiteSpace(folder) &&
+        File.Exists(Path.Combine(folder, "background", "background.png"));
+
+    public static string? FindRoot(string? preferred = null)
     {
         var baseDir = AppDomain.CurrentDomain.BaseDirectory;
         var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        var candidates = new[]
+        var candidates = new List<string>();
+        if (!string.IsNullOrWhiteSpace(preferred))
+            candidates.Add(preferred);
+        candidates.AddRange(new[]
         {
             // Preferred: next to the exe
             Path.Combine(baseDir, "Assets", "AcHud"),
@@ -31,13 +38,19 @@ public sealed class AcHudAssets
             Path.Combine(desktop, "Air Gestures", "nfsu2-hud-assets", "NFSU2HUD 3.0", "apps", "python", "NFSU2HUD", "img"),
             Path.Combine(desktop, "nfsu2-hud-assets", "NFSU2HUD 3.0", "apps", "python", "NFSU2HUD", "img"),
             Path.Combine(desktop, "NFSU2HUD 3.0", "apps", "python", "NFSU2HUD", "img"),
-        };
+        });
         foreach (var c in candidates)
         {
-            if (File.Exists(Path.Combine(c, "background", "background.png")))
-                return c;
+            if (LooksValid(c))
+                return Path.GetFullPath(c);
         }
         return null;
+    }
+
+    public static string ExpectedInstallHint()
+    {
+        var dest = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "AcHud");
+        return $"Expected folder:\n{dest}\n\nIt must contain background\\background.png (from NFSU2HUD 3.0 img).";
     }
 
     public BitmapSource Get(string relativePath)

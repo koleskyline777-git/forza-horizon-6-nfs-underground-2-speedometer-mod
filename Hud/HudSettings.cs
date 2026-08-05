@@ -9,6 +9,8 @@ public sealed class HudSettings
     public double Top { get; set; } = double.NaN;
     public double Scale { get; set; } = 1.45;
     public bool UseMph { get; set; } = true;
+    /// <summary>Optional absolute path to NFSU2HUD img folder (saved after folder picker).</summary>
+    public string? AssetsPath { get; set; }
 
     private static string Path =>
         System.IO.Path.Combine(

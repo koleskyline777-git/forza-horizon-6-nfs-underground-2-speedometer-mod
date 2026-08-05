@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Microsoft.Win32;
 using Nfsu2ForzaHud.Hud;
 using Nfsu2ForzaHud.Input;
 using Nfsu2ForzaHud.Telemetry;
@@ -60,25 +62,40 @@ public partial class MainWindow : Window
             Icon = BitmapFrame.Create(new Uri(iconPath, UriKind.Absolute));
 
         ApplyScaleAndPlace();
-        MakeClickThrough(true);
         InitTray();
-
-        var root = AcHudAssets.FindRoot();
-        if (root == null)
-        {
-            TxtStatus.Text = "NFSU2HUD 3.0 assets not found — put mod in nfsu2-hud-assets\\NFSU2HUD 3.0";
-            return;
-        }
-
-        _ac = new AcHudAssets(root);
-        ImgBoostNos.Source = _ac.BoostNosOverlay;
-        ImgBackground.Source = _ac.Background;
-        ImgGearFlash.Source = _ac.GearFlashOff;
-        ImgUom.Source = _ac.Uom(_useMph);
 
         _hotkeys = new GlobalHotkeys(this);
         _hotkeys.HotkeyPressed += OnHotkey;
         _hotkeys.Register();
+
+        if (!TryStartHud())
+            ShowMissingAssetsUi();
+    }
+
+    /// <returns>true if HUD art loaded and telemetry UI started.</returns>
+    private bool TryStartHud()
+    {
+        var root = AcHudAssets.FindRoot(_settings.AssetsPath);
+        if (root == null)
+            return false;
+
+        try
+        {
+            _ac = new AcHudAssets(root);
+            ImgBoostNos.Source = _ac.BoostNosOverlay;
+            ImgBackground.Source = _ac.Background;
+            ImgGearFlash.Source = _ac.GearFlashOff;
+            ImgUom.Source = _ac.Uom(_useMph);
+        }
+        catch (Exception ex)
+        {
+            TxtStatus.Text = $"Failed to load HUD art: {ex.Message}";
+            return false;
+        }
+
+        MissingAssetsPanel.Visibility = Visibility.Collapsed;
+        HudViewbox.Visibility = Visibility.Visible;
+        MakeClickThrough(!_moveMode);
 
         try
         {
@@ -90,12 +107,68 @@ public partial class MainWindow : Window
             TxtStatus.Text = $"UDP bind failed on {DefaultPort}: {ex.Message}";
         }
 
-        _uiTimer.Start();
-        _demoTimer.Start();
+        if (!_uiTimer.IsEnabled) _uiTimer.Start();
+        if (!_demoTimer.IsEnabled) _demoTimer.Start();
         UpdateStatusChrome();
+        _tray?.ShowBalloon("NFSU2 Forza HUD", "HUD art loaded · F1 hide/show · F9 quit");
+        _tray?.SetTooltip("NFSU2 Forza HUD");
+        return true;
+    }
 
-        // Live in the tray by default (no taskbar button).
-        _tray?.ShowBalloon("NFSU2 Forza HUD", "Running in tray · F1 hide/show · F9 quit");
+    private void ShowMissingAssetsUi()
+    {
+        // Must receive clicks so the user can pick the img folder.
+        MakeClickThrough(false);
+        _moveMode = true;
+        Cursor = Cursors.Arrow;
+        HudViewbox.Visibility = Visibility.Collapsed;
+        MissingAssetsPanel.Visibility = Visibility.Visible;
+        TxtMissingPath.Text = AcHudAssets.ExpectedInstallHint();
+        TxtStatus.Text = "MISSING ART — choose NFSU2HUD img folder";
+        TxtHotkeys.Text = "Copy img → Assets\\AcHud  ·  or click Choose folder  ·  F9 quit";
+        _tray?.ShowBalloon("NFSU2 HUD — art missing", "Copy NFSU2HUD 3.0 img into Assets\\AcHud (see ASSETS.md)");
+        _tray?.SetTooltip("NFSU2 HUD — art missing");
+    }
+
+    private void OnPickAssetsClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new OpenFolderDialog
+        {
+            Title = "Select NFSU2HUD 3.0 img folder (contains background\\, rev\\, speed\\…)",
+        };
+        if (dlg.ShowDialog(this) != true)
+            return;
+
+        if (!AcHudAssets.LooksValid(dlg.FolderName))
+        {
+            System.Windows.MessageBox.Show(
+                this,
+                "That folder is not a valid NFSU2HUD img pack.\n\nIt must contain:\n  background\\background.png\n  rev\\\n  speed\\\n  boost_needle\\",
+                "NFSU2 HUD",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            return;
+        }
+
+        _settings.AssetsPath = dlg.FolderName;
+        _settings.Save();
+        if (TryStartHud())
+        {
+            _moveMode = false;
+            MakeClickThrough(true);
+            Cursor = Cursors.Arrow;
+        }
+    }
+
+    private void OnOpenAssetsDocClick(object sender, RoutedEventArgs e)
+    {
+        var doc = ImageUtil.AssetPath("ASSETS.md");
+        if (!System.IO.File.Exists(doc))
+            doc = ImageUtil.AssetPath("..", "..", "..", "ASSETS.md");
+        if (System.IO.File.Exists(doc))
+            Process.Start(new ProcessStartInfo(doc) { UseShellExecute = true });
+        else
+            System.Windows.MessageBox.Show(this, AcHudAssets.ExpectedInstallHint(), "ASSETS.md", MessageBoxButton.OK);
     }
 
     private void InitTray()

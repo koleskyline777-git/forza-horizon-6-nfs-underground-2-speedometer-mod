@@ -14,7 +14,17 @@ NFSU2HUD 3.0\apps\python\NFSU2HUD\img\
 
 It contains `background\`, `rev\`, `boost_needle\`, `speed\`, `gears_orange\`, etc.
 
-## 2. Install next to the exe
+## 2. Easiest: use the in-app picker
+
+On a PC without art, the overlay shows **“HUD art not found”**.
+
+1. Click **Choose img folder…**
+2. Select the NFSU2HUD `img` folder (the one that contains `background`, `rev`, `speed`, …)
+3. The path is saved — HUD starts immediately
+
+Or install manually:
+
+## 3. Install next to the exe
 
 Copy (or junction) that `img` folder to:
 
@@ -45,7 +55,7 @@ New-Item -ItemType Directory -Force -Path (Split-Path $dst) | Out-Null
 cmd /c mklink /J "$dst" "$img"
 ```
 
-## 3. Verify
+## 4. Verify
 
 Run the exe. If assets are missing you’ll see:
 

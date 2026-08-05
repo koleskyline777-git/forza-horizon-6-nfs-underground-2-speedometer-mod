@@ -53,5 +53,27 @@
                            Text="F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F9 quit" />
             </StackPanel>
         </Border>
+
+        <!-- Shown when NFSU2HUD art is missing (common on a fresh PC / Release zip). -->
+        <Border x:Name="MissingAssetsPanel" Visibility="Collapsed"
+                Background="#E6101828" Padding="28" Margin="40"
+                CornerRadius="12" VerticalAlignment="Center" HorizontalAlignment="Center"
+                MaxWidth="520">
+            <StackPanel>
+                <TextBlock Text="HUD art not found"
+                           Foreground="#FF8A3D" FontSize="22" FontWeight="Bold" Margin="0,0,0,10" />
+                <TextBlock TextWrapping="Wrap" Foreground="#E8EEF7" FontSize="13" LineHeight="20"
+                           Text="This Release does not include NFSU2HUD textures (copyright). Copy the Assetto Corsa NFSU2HUD 3.0 img folder to Assets\AcHud next to the .exe — see ASSETS.md." />
+                <TextBlock x:Name="TxtMissingPath" TextWrapping="Wrap" Foreground="#88AACC" FontSize="11"
+                           Margin="0,12,0,0" />
+                <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                    <Button x:Name="BtnPickAssets" Content="Choose img folder…" Padding="14,8" Margin="0,0,10,0"
+                            Click="OnPickAssetsClick" />
+                    <Button x:Name="BtnOpenAssetsDoc" Content="Open ASSETS.md" Padding="14,8"
+                            Click="OnOpenAssetsDocClick" />
+                </StackPanel>
+                <TextBlock Text="F4 = move this window · F9 = quit" Foreground="#6688AA" FontSize="11" Margin="0,14,0,0" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
