@@ -2,11 +2,8 @@
 
 Transparent Windows overlay that draws a **pixel-accurate Need for Speed: Underground 2** race cluster on top of **Forza Horizon 6**, driven by official **Data Out** UDP telemetry.
 
-Built from the Assetto Corsa **NFSU2HUD 3.0** art pack (same dials, needles, fonts, and layout as the AC mod).
-
-![HUD preview](docs/preview.png)
-
-> Place your own copy of the NFSU2HUD 3.0 `img` folder before running — see [ASSETS.md](ASSETS.md). Textures are **not** redistributed in this repository.
+![HUD preview](docs/image.png)
+![HUD preview](docs/image(2).png)
 
 ---
 
@@ -28,21 +25,19 @@ Built from the Assetto Corsa **NFSU2HUD 3.0** art pack (same dials, needles, fon
 - Windows 10/11
 - [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) (or use the self-contained Release zip)
 - Forza Horizon 6 with **Data Out** enabled
-- **NFSU2HUD 3.0** textures (see [ASSETS.md](ASSETS.md))
 
 ---
 
 ## Quick start (Release build)
 
 1. Download the latest **Release** zip from GitHub Releases.
-2. Install NFSU2HUD 3.0 art → copy its `img` folder to `Assets\AcHud` next to the `.exe` (details in [ASSETS.md](ASSETS.md)).
-3. In FH6: **Settings → HUD and Gameplay → Data Out**
+2. In FH6: **Settings → HUD and Gameplay → Data Out**
    - Data Out = **On**
    - IP = `127.0.0.1`
    - Port = `20777`
    - Prefer **borderless** window mode
-4. Run `Nfsu2ForzaHud.exe`
-5. Look for the tray icon (U2 tach). HUD appears bottom-right.
+3. Run `Nfsu2ForzaHud.exe`
+4. Look for the tray icon (U2 tach). HUD appears bottom-right.
 
 ---
 
@@ -106,7 +101,6 @@ Then copy NFSU2HUD `img` → `publish\Assets\AcHud`.
 
 ## Credits
 
-- **NFSU2HUD 3.0** (Assetto Corsa) by [Stormix43](https://www.racedepartment.com/members/stormix43.412027/) — art pack & frame layout this overlay mirrors
 - Need for Speed™ Underground 2 — Electronic Arts (visual style reference)
 - Forza Horizon™ — Xbox Game Studios / Playground Games (telemetry)
 
