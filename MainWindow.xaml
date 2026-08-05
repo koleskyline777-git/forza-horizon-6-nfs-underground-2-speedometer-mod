@@ -1,0 +1,57 @@
+﻿<Window x:Class="Nfsu2ForzaHud.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NFSU2 Forza HUD"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        WindowStartupLocation="Manual"
+        Loaded="OnLoaded"
+        Closing="OnClosing"
+        StateChanged="OnStateChanged"
+        MouseLeftButtonDown="OnMouseLeftButtonDown"
+        MouseWheel="OnMouseWheel">
+    <Grid>
+        <!--
+          NFSU2HUD 3.0 layout at logical 800², scaled via Viewbox to Forza-sized bottom-right.
+        -->
+        <Viewbox x:Name="HudViewbox" Stretch="Fill" Width="800" Height="800">
+            <Canvas x:Name="RaceCluster" Width="800" Height="800" Opacity="0.97" ClipToBounds="False">
+                <Image x:Name="ImgBoostNos" Width="800" Height="800" Stretch="Fill"
+                       Canvas.Left="0" Canvas.Top="0" />
+
+                <Image x:Name="ImgBackground" Width="400" Height="400" Stretch="Fill"
+                       Canvas.Left="200" Canvas.Top="200" />
+                <Image x:Name="ImgRpmFace" Width="400" Height="400" Stretch="Fill"
+                       Canvas.Left="200" Canvas.Top="200" />
+                <Image x:Name="ImgRev" Width="400" Height="400" Stretch="Fill"
+                       Canvas.Left="200" Canvas.Top="200" />
+                <Image x:Name="ImgSpeed" Width="400" Height="400" Stretch="Fill"
+                       Canvas.Left="200" Canvas.Top="200" />
+                <Image x:Name="ImgGearFlash" Width="400" Height="400" Stretch="Fill"
+                       Canvas.Left="200" Canvas.Top="200" />
+
+                <Image x:Name="ImgBoostNeedle" Width="160" Height="160" Stretch="Fill"
+                       Canvas.Left="42.4" Canvas.Top="398.1" />
+                <Image x:Name="ImgGear" Width="38" Height="38" Stretch="Fill"
+                       Canvas.Left="515.6" Canvas.Top="356" />
+                <Image x:Name="ImgUom" Width="90" Height="24" Stretch="Fill"
+                       Canvas.Left="451" Canvas.Top="481.5" />
+            </Canvas>
+        </Viewbox>
+
+        <Border x:Name="StatusBar" HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="8" Padding="8,5" Background="#99000000" CornerRadius="6"
+                IsHitTestVisible="False">
+            <StackPanel>
+                <TextBlock x:Name="TxtStatus" Foreground="#CFE8FF" FontSize="11"
+                           Text="NFSU2 HUD — waiting for FH6 Data Out…" />
+                <TextBlock x:Name="TxtHotkeys" Foreground="#88AACC" FontSize="10"
+                           Text="F1 HUD  ·  F2 mph/kph  ·  F3 demo  ·  F4 move  ·  F9 quit" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

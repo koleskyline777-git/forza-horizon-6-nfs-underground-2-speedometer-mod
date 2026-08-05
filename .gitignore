@@ -1,0 +1,20 @@
+## Build
+bin/
+obj/
+publish/
+dist/
+*.user
+*.suo
+.vs/
+*.pdb
+
+## Local art (required at runtime, not committed)
+Assets/AcHud/
+Assets/Race/
+Assets/RaceReady/
+Assets/References/
+
+## OS / editor
+.DS_Store
+Thumbs.db
+*.log

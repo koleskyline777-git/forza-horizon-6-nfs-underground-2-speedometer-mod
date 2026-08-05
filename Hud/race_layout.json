@@ -1,0 +1,60 @@
+{
+  "canvasWidth": 560,
+  "canvasHeight": 460,
+  "anchor": "bottom-right",
+  "marginX": 56,
+  "marginY": 28,
+  "scale": 0.52,
+  "tintBlue": "#1E5BB8",
+  "tintCyan": "#3EC4FF",
+  "tintRed": "#C41E1E",
+  "gearColor": "#FF7A18",
+  "speedColor": "#FFFFFF",
+  "unitColor": "#E8EEF7",
+  "tach": {
+    "x": 88,
+    "y": 24,
+    "width": 420,
+    "height": 420,
+    "needlePivotX": 0.5,
+    "needlePivotY": 0.5,
+    "angleStartDeg": 0,
+    "angleEndDeg": 240,
+    "needleWidth": 17,
+    "needleHeight": 188,
+    "faceMaxRpm": 20000
+  },
+  "turbo": {
+    "x": 72,
+    "y": 262,
+    "width": 200,
+    "height": 200,
+    "needlePivotX": 0.5,
+    "needlePivotY": 0.5,
+    "angleStartDeg": 30,
+    "angleEndDeg": 240,
+    "needleWidth": 12,
+    "needleHeight": 90
+  },
+  "nos": {
+    "x": 88,
+    "y": 24,
+    "width": 420,
+    "height": 420
+  },
+  "gear": {
+    "x": 328,
+    "y": 160,
+    "fontSize": 52
+  },
+  "speed": {
+    "x": 316,
+    "y": 228,
+    "fontSize": 46
+  },
+  "unit": {
+    "x": 328,
+    "y": 278,
+    "fontSize": 15
+  }
+}
